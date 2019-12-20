@@ -1,4 +1,4 @@
-# [Canvas](https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial/Basic_usage)
+# [MDN Canvas](https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial/Basic_usage)
 
 ## canvas 元素
 
@@ -28,7 +28,7 @@ clearRect(x, y, width, height)  // 清除指定矩形区域，让清除部分完
 * 图形的基本元素是路径。路径是通过不同颜色和宽度的线段或曲线相连形成的不同形状的点的集合。一个路径，甚至一个子路径，都是闭合的。使用路径绘制图形需要一些额外的步骤。
 
 1. 生成路径的第一步叫做beginPath()。本质上，路径是由很多子路径构成，这些子路径都是在一个列表中，所有的子路径（线、弧形、等等）构成图形。而每次这个方法调用之后，列表清空重置，然后我们就可以重新绘制新的图形。
-2. 第二步就是调用函数指定绘制路径，本文稍后我们就能看到了。
+2. 第二步就是调用函数指定绘制路径。
 3. 第三，就是闭合路径closePath(),不是必需的。这个方法会通过绘制一条从当前点到开始点的直线来闭合图形。如果图形是已经闭合了的，即当前点为开始点，该函数什么也不做。
 
 ```js
@@ -72,4 +72,38 @@ arcTo(x1, y1, x2, y2, radius)//根据给定的控制点和半径画一段圆弧�
 ```js
 quadraticCurveTo(cp1x, cp1y, x, y) //绘制二次贝塞尔曲线，cp1x,cp1y为一个控制点，x,y为结束点。
 bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y)//绘制三次贝塞尔曲线，cp1x,cp1y为控制点一，cp2x,cp2y为控制点二，x,y为结束点。
+```
+
+## 矩形
+
+```js
+rect(x,y,width,height) // 绘制一个左上角坐标为（x,y），宽高为width以及height的矩形。
+```
+
+* rect()方法，将一个矩形路径增加到当前路径上。
+* 当该方法执行的时候，moveTo()方法自动设置坐标参数（0,0）。也就是说，当前笔触自动重置回默认坐标。
+
+## Path2D对象
+
+```js
+Path2D() //Path2D()会返回一个新初始化的Path2D对象（可能将某一个路径作为变量——创建一个它的副本，或者将一个包含SVG path数据的字符串作为变量）
+
+new Path2D();     // 空的Path对象
+new Path2D(path); // 克隆Path对象
+new Path2D(d);    // 从SVG建立Path对象
+
+Path2D.addPath(path [, transform])​ // 添加了一条路径到当前路径（可能添加了一个变换矩阵）。
+```
+
+## 色彩 Colors
+
+```js
+fillStyle = color //设置图形的填充颜色。
+strokeStyle = color //设置图形轮廓的颜色。
+```
+
+## 透明度 Transparency
+
+```js
+globalAlpha = transparencyValue //这个属性影响到 canvas 里所有图形的透明度，有效的值范围是 0.0 （完全透明）到 1.0（完全不透明），默认是 1.0。
 ```
