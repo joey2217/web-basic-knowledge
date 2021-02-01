@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>刮刮乐</title>
+</head>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  .container {
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  #lottery {
+    width: 300px;
+    height: 500px;
+    display: flex;
+    position: relative;
+    border: 2px solid #000;
+  }
+
+  #text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    line-height: 100px;
+    z-index: 1;
+    user-select: none;
+    font-size: 50px;
+    font-family: cursive, 'Courier New', Courier, monospace;
+  }
+
+  #cover {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+    cursor: pointer;
+  }
+</style>
+
+<body>
+  <div class="container">
+    <div id="lottery">
+      <div id="content">
+        <img loading="lazy" width="300" src="./Rd809fe810e7a73037e6ded4206214978.jpg" alt="logo">
+      </div>
+      <div id="text">
+        下次好运
+      </div>
+      <canvas id="cover" width="300" height="100"></canvas>
+    </div>
+  </div>
+</body>
+
+<script>
+  var text = document.querySelector('#text')
+  var levels = ['一等奖', '二等奖', '三等奖', '特等奖', '下次好运']
+  var index = parseInt(String(Math.random() * levels.length), 10)
+  text.textContent = levels[index]
+
+  var cover = document.querySelector('#cover')
+  var ctx = cover.getContext('2d')
+  ctx.fillStyle = '#333';
+  ctx.fillRect(0, 0, 300, 100);
+  ctx.globalCompositeOperation = "destination-out"
+
+  cover.onmousedown = function () {
+    cover.onmousemove = function (e) {
+      ctx.beginPath();
+      ctx.arc(e.offsetX, e.offsetY, 12, 0, Math.PI * 2, false);
+      ctx.fill();
+    }
+  }
+
+  cover.onmouseup = function () {
+    cover.onmousemove = undefined
+  }
+  cover.ontouchstart = function (evt) {
+    evt.preventDefault();
+    var p = cover.getClientRects()[0]
+    var x = p.x
+    var y = p.y
+    cover.ontouchmove = function (e) {
+      e.preventDefault();
+      ctx.beginPath();
+      ctx.arc(e.touches[0].clientX - x, e.touches[0].clientY - y, 15, 0, Math.PI * 2, false);
+      ctx.fill();
+    }
+  }
+</script>
+
+</html>
