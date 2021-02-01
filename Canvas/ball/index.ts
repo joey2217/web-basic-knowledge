@@ -50,19 +50,26 @@ class Ball {
 let timer;
 let ballArr: Ball[] = []
 canvas.onclick = function (e: MouseEvent) {
-  const num = parseInt(String(Math.random() * 50), 10) + 10;
+  if (timer) {
+    console.log(timer);
+    console.log('clearInterval prev');
+    clearInterval(timer)
+  }
+  const num = parseInt(String(Math.random() * 50), 10) + 50;
   for (let i = 0; i < num; i++) {
     ballArr.push(new Ball(e.offsetX, e.offsetY))
   }
   timer = setInterval(() => {
+    console.log(timer);
     ballArr = ballArr.filter(item => item.r > 0)
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ballArr.forEach((b) => {
       b.update();
     })
-    if (timer && ballArr.length === 0) {
+    if (ballArr.length === 0) {
+      console.log(timer);
       console.log('clearInterval');
       clearInterval(timer)
     }
-  }, 30)
+  }, 16)
 }

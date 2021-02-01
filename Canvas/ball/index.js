@@ -41,19 +41,26 @@ var Ball = /** @class */ (function () {
 var timer;
 var ballArr = [];
 canvas.onclick = function (e) {
-    var num = parseInt(String(Math.random() * 50), 10) + 10;
+    if (timer) {
+        console.log(timer);
+        console.log('clearInterval prev');
+        clearInterval(timer);
+    }
+    var num = parseInt(String(Math.random() * 50), 10) + 50;
     for (var i = 0; i < num; i++) {
         ballArr.push(new Ball(e.offsetX, e.offsetY));
     }
     timer = setInterval(function () {
+        console.log(timer);
         ballArr = ballArr.filter(function (item) { return item.r > 0; });
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ballArr.forEach(function (b) {
             b.update();
         });
-        if (timer && ballArr.length === 0) {
+        if (ballArr.length === 0) {
+            console.log(timer);
             console.log('clearInterval');
             clearInterval(timer);
         }
-    }, 30);
+    }, 16);
 };
